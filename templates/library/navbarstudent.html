@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Bootstrap 4 Static Navbar with Dropdown and Search Form</title>
+<title>Library Management System</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -32,7 +31,7 @@
 
 
 <div class="bs-example">
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark ">
         <a href="/" class="navbar-brand">Library Management</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -56,8 +55,6 @@
 
             <div class="navbar-nav">
                 <a href="logout" class="nav-item nav-link">LOGOUT</a> &nbsp
-                
-                <a href="contactus" class="nav-item nav-link">Contact Us</a>
             </div>
 
 
@@ -66,6 +63,8 @@
         </div>
     </nav>
 </div>
+<br />
+{% block content %} {% endblock %}
 
 
 </body>
