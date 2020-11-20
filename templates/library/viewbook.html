@@ -13,11 +13,12 @@
         <th scope="col">ISBN</th>
         <th scope="col">Author</th>
         <th scope="col">Category</th>
+        <th scope="col">Quantity</th>
       </tr>
     </thead>
     <tfoot>
       <tr>
-        <td colspan="4" rowspan="4">
+        <td colspan="5" rowspan="5">
           <div class="links"></div>
         </td>
       </tr>
@@ -29,6 +30,7 @@
         <td>{{book.isbn}}</td>
         <td>{{book.author}}</td>
         <td>{{book.category}}</td>
+        <td>{{book.quantity}}</td>
       </tr>
       {% endfor %}
     </tbody>
