@@ -1,0 +1,17 @@
+{% extends 'library/navbarstudent.html' %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+    <h3 class="p-3 mb-2 bg-primary text-white" style='font-size: 50px;text-align:center;'>Book Returned Successfully !
+    </h3>
+    <br><br>
+    <div class="options" style="text-align:center">
+        <a href="viewissuedbookbystudent" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Click here to view issued books</a><br><br>
+
+        <a href="returnbook" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Click here to
+           return other book</a><br><br>
+    </div>
+</div>
+
+{% endblock %}

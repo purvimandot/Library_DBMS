@@ -6,30 +6,30 @@
 	<center>
 		<h3 style=" margin-bottom: 0px;" class='alert alert-success'>RETURN BOOK TO LIBRARY !</h3>
 	</center>
+	{% if issuedbook|length %}
 	<div class="signup-form">
-		<form method="post" class="form-horizontal">
-
+		<form action="/returnbook" method="post" class="form-horizontal">
+	
 			{% csrf_token %}
-
-			{% for field in form %}
-			
 			<div class="form-group">
-				<label class="control-label col-xs-4">{{ field.label_tag }}</label>
-				<div class="col-xs-8">
-					{{ field }}
-				</div>
+			<select class="form-control" id="book" name="book">
+				{% for book in issuedbook %}
+				<option value="{{book.1}}">{{book.0}}-{{book.1}}</option>
+				{% endfor %}
+				
+			</select>
 			</div>
-			{% endfor %}
-
-
 			<div class="form-group">
 				<div class="col-xs-8 col-xs-offset-4">
 					<button type="submit" class="btn btn-primary btn-lg">RETURN</button>
 				</div>
 			</div>
 		</form>
-		{% comment %} <div class="text-center">View Issued Book to Student <a href="viewissuedbook">Click here</a></div> {% endcomment %}
 	</div>
+	{% else %}
+		<h3>No Books Issued!!!</h3>
+	{% endif %}
+	
 </div>
 
 {% endblock %}

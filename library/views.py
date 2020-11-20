@@ -131,32 +131,6 @@ def issuebook_view(request):
     return render(request, 'library/issuebook.html', {'form': form})
 
 
-@login_required(login_url='studentlogin')
-@user_passes_test(not is_admin)
-def returnbook_view(request):
-    form = forms.IssuedBookForm()
-    if request.method == 'POST':
-        # now this form have data from html
-        form = forms.IssuedBookForm(request.POST)
-        if form.is_valid():
-            obj = models.IssuedBook()
-            obj.enrollment = request.POST.get('enrollment2')
-            obj.isbn = request.POST.get('isbn2')
-
-            present = models.Book.objects.filter(
-                isbn=request.POST.get('isbn2'))
-            print(present)
-            if present:
-                print(present)
-                present[0].quantity -= 1
-                present[0].save()
-            else:
-                obj.save()
-            return render(request, 'library/bookissued.html')
-
-    return render(request, 'library/issuebook.html', {'form': form})
-
-
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def viewissuedbook_view(request):
@@ -229,3 +203,55 @@ def viewissuedbookbystudent(request):
         li2.append(t)
 
     return render(request, 'library/viewissuedbookbystudent.html', {'li1': li1, 'li2': li2})
+
+
+@login_required(login_url='studentlogin')
+def returnbook_view(request):
+    if request.method == 'POST':
+        isbn = request.POST["book"]
+        present = models.Book.objects.filter(isbn=isbn)
+        print(present)
+        present[0].quantity += 1
+        present[0].save()
+        student = models.StudentExtra.objects.filter(user=request.user.id)
+        issuedbook = models.IssuedBook.objects.filter(
+            enrollment=student[0].enrollment, isbn=isbn)
+        issuedbook[0].delete()
+        return render(request, "library/bookreturned.html")
+
+    else:
+        student = models.StudentExtra.objects.filter(user=request.user.id)
+        if len(student):
+            issuedbook = models.IssuedBook.objects.filter(
+                enrollment=student[0].enrollment)
+        else:
+            issuedbook = []
+        allissued = []
+        for ib in issuedbook:
+            books = models.Book.objects.filter(isbn=ib.isbn)
+            for book in books:
+                t = (book.name, ib.isbn)
+                allissued.append(t)
+        return render(request, 'library/returnbook.html', {'issuedbook': allissued})
+
+    # form = forms.IssuedBookForm()
+    # if request.method == 'POST':
+    #     # now this form have data from html
+    #     form = forms.IssuedBookForm(request.POST)
+    #     if form.is_valid():
+    #         obj = models.IssuedBook()
+    #         obj.enrollment = request.POST.get('enrollment2')
+    #         obj.isbn = request.POST.get('isbn2')
+
+    #         present = models.Book.objects.filter(
+    #             isbn=request.POST.get('isbn2'))
+    #         print(present)
+    #         if present:
+    #             print(present)
+    #             present[0].quantity -= 1
+    #             present[0].save()
+    #         else:
+    #             obj.save()
+    #         return render(request, 'library/bookissued.html')
+
+    # return render(request, 'library/issuebook.html', {'form': form})
