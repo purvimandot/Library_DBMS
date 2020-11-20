@@ -87,10 +87,11 @@ def addbook_view(request):
         # now this form have data from html
         form = forms.BookForm(request.POST)
         if form.is_valid():
-            present=models.Book.objects.filter(name= form.cleaned_data.get("name"),author= form.cleaned_data.get("author"),isbn= form.cleaned_data.get("isbn"))
+            present = models.Book.objects.filter(name=form.cleaned_data.get(
+                "name"), author=form.cleaned_data.get("author"), isbn=form.cleaned_data.get("isbn"))
             print(present)
             if present:
-                present[0].quantity+=1
+                present[0].quantity += 1
                 present[0].save()
             else:
                 user = form.save()
@@ -116,18 +117,19 @@ def issuebook_view(request):
             obj = models.IssuedBook()
             obj.enrollment = request.POST.get('enrollment2')
             obj.isbn = request.POST.get('isbn2')
-            
-            present=models.Book.objects.filter(isbn= request.POST.get('isbn2'))
+
+            present = models.Book.objects.filter(
+                isbn=request.POST.get('isbn2'))
+
             print(present)
-            if present:
-                print(present)
-                present[0].quantity-=1
-                present[0].save()
-            else:
-                obj.save()
+            present[0].quantity -= 1
+            present[0].save()
+            obj.save()
+
             return render(request, 'library/bookissued.html')
 
     return render(request, 'library/issuebook.html', {'form': form})
+
 
 @login_required(login_url='studentlogin')
 @user_passes_test(not is_admin)
@@ -140,12 +142,13 @@ def returnbook_view(request):
             obj = models.IssuedBook()
             obj.enrollment = request.POST.get('enrollment2')
             obj.isbn = request.POST.get('isbn2')
-            
-            present=models.Book.objects.filter(isbn= request.POST.get('isbn2'))
+
+            present = models.Book.objects.filter(
+                isbn=request.POST.get('isbn2'))
             print(present)
             if present:
                 print(present)
-                present[0].quantity-=1
+                present[0].quantity -= 1
                 present[0].save()
             else:
                 obj.save()
