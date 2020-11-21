@@ -37,7 +37,7 @@ To run the app locally follow the below steps :
 - Clone the repository.
 
 ```
-git clone https://github.com/purvimandot/Twitter_toplinks.git
+git clone https://github.com/purvimandot/Library_DBMS.git
 ```
 
 
