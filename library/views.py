@@ -87,14 +87,12 @@ def addbook_view(request):
         # now this form have data from html
         form = forms.BookForm(request.POST)
         if form.is_valid():
-            # present = models.Book.objects.filter(name=form.cleaned_data.get(
-            #     "name"), author=form.cleaned_data.get("author"), isbn=form.cleaned_data.get("isbn"))
-            # print(present)
-            # if present:
-            #     present[0].quantity += 1
-            #     present[0].save()
-            # else:
-            form.save()
+            try:
+                present = models.Book.objects.get(isbn= request.POST["isbn"])
+                present.quantity += form.cleaned_data.get("quantity")
+                present.save()
+            except:
+                form.save()
             return render(request, 'library/bookadded.html')
     return render(request, 'library/addbook.html', {'form': form})
 
@@ -122,7 +120,7 @@ def issuebook_view(request):
                 isbn=request.POST.get('isbn2'))
 
             print(present)
-            #present.quantity= 4345
+         
             present.quantity -= 1
             present.save()
             obj.save()
