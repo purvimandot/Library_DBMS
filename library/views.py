@@ -178,13 +178,11 @@ def viewissuedbookbystudent(request):
     else:
         issuedbook = []
     li1 = []
-
     li2 = []
     for ib in issuedbook:
         books = models.Book.objects.filter(isbn=ib.isbn)
         for book in books:
-            t = (request.user, student[0].enrollment,
-                 student[0].branch, book.name, book.author)
+            t = ( book.name, book.author)
             li1.append(t)
         issdate = str(ib.issuedate.day)+'-' + \
             str(ib.issuedate.month)+'-'+str(ib.issuedate.year)
@@ -200,8 +198,11 @@ def viewissuedbookbystudent(request):
             fine = day*10
         t = (issdate, expdate, fine)
         li2.append(t)
+        data=[]
+        for i in range(len(li1)):
+            data.append([li1[i][0],li1[i][1],li2[i][0],li2[i][1],li2[i][2]])
 
-    return render(request, 'library/viewissuedbookbystudent.html', {'li1': li1, 'li2': li2})
+    return render(request, 'library/viewissuedbookbystudent.html', {'data':data})
 
 
 @login_required(login_url='studentlogin')
